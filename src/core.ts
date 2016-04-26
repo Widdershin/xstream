@@ -9,6 +9,11 @@ export interface InternalListener<T> {
   _c: () => void;
 }
 
+export interface SerializedStream<T> {
+  streams: Object,
+  dependencies: Array<Object>
+}
+
 const emptyListener: InternalListener<any> = {
   _n: noop,
   _e: noop,
@@ -1810,6 +1815,32 @@ export class Stream<T> implements InternalListener<T> {
     this._c();
   }
 
+  serialize(): SerializedStream<T> {
+    console.log(this._prod)
+    console.log(this._ils)
+    return {
+      streams: {},
+      dependencies: []
+    };
+  }
+
+  static deserialize<T>(serializedStream: SerializedStream<T>): Stream<T> {
+    const producer = {
+      start: function (listener: any) {
+      },
+
+      stop: function () {
+      },
+
+      _start: function () {
+      },
+
+      _stop: function () {
+      },
+    }
+
+    return new Stream<T>(producer);
+  }
 }
 
 export class MemoryStream<T> extends Stream<T> {
